@@ -28,7 +28,6 @@ export default defineComponent({
 </script>
 
 <template>
-	<div>{{ numberOfPages }}</div>
 	<button v-for="i in numberOfPages" @click="handleClick(i)">{{ i }}</button>
 </template>
 

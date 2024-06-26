@@ -86,12 +86,12 @@ export default defineComponent({
 
 				<table>
 					<tr>
-						<th>id</th>
-						<th>name</th>
-						<th>buy price</th>
-						<th>inventory</th>
-						<th>par amount</th>
-						<th>order amount</th>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Buy price</th>
+						<th>Inventory</th>
+						<th>Par Amount</th>
+						<th>Order Amount</th>
 					</tr>
 					<tr v-for="item in orderItems" :key="item.shopItemId">
 						<ShopItemTableItem :tableItem="item" :orderCart="orderCart" :setOrderCart="setOrderCart"
@@ -142,10 +142,15 @@ export default defineComponent({
 	height: 10%;
 	width: 100%;
 }
+.closeButton{
+	height: 50%;
+	aspect-ratio: 1/1;	
+}
 
 .orderContentWindow {
 	height: 70%;
 	border: 1px solid black;
+	overflow-y: auto;
 }
 
 .orderInfo {
@@ -154,5 +159,8 @@ export default defineComponent({
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	gap: 10px;
+	padding-right: 5px;
+	padding-right: 5px;
 }
 </style>

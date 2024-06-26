@@ -3,9 +3,9 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: #c6d0f5;
-  background-color: #b5bfe2;
+  /* color-scheme: light dark; */
+  /* color: #c6d0f5; */
+  /* background-color: #b5bfe2; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,6 +19,7 @@ table, th, td {
 	text-align: left;
 	padding: 5px;
 	table-layout: fixed;
+	overflow: clip;
 }
 
 a {
@@ -49,7 +50,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }

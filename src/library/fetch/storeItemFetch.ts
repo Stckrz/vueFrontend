@@ -10,7 +10,7 @@ export async function fetchSaleItems(page: number,) {
 			return ({ "message": "internal database error" })
 		}
 	} catch (error) {
-		return ({ "error": error })
+		console.log({ "error": error })
 	}
 }
 
@@ -24,7 +24,7 @@ export async function fetchBelowPar() {
 			return ({ "message": "internal database error" })
 		}
 	} catch (error) {
-		return ({ "error": error })
+		console.log({ "error": error })
 	}
 }
 
@@ -38,11 +38,11 @@ export async function fetchSaleItemsCount() {
 			return ({ "message": "internal database error" })
 		}
 	} catch (error) {
-		return ({ "error": error })
+		console.log({ "error": error })
 	}
 }
 
-export async function fetchUpdateShopItem(shopItem: ShopItem){
+export async function fetchUpdateShopItem(shopItem: ShopItem) {
 	const itemId = shopItem.shopItemId;
 	const updateItemObject = {
 		shopItemName: shopItem.shopItemName,
@@ -51,21 +51,21 @@ export async function fetchUpdateShopItem(shopItem: ShopItem){
 		quantity: shopItem.quantity,
 		parAmount: shopItem.parAmount
 	}
-	try{
+	try {
 		const response = await fetch(`http://localhost:8080/shopItems.php/?shopItemId=${itemId}`, {
 			method: "PUT",
 			body: JSON.stringify(updateItemObject)
-			
+
 		});
-		if (response.status === 200){
+		if (response.status === 200) {
 			return (response);
-		}else{
-			return({"message": "update failed"})
+		} else {
+			console.log({ "message": "update failed" });
 		}
 
 	}
-	catch (error){ 
-		return ({"message": `Update failed: ${error}`});
+	catch (error) {
+		console.log({ "message": `Update failed: ${error}` });
 	}
 }
 
@@ -87,13 +87,8 @@ export async function fetchNewShopItem(shopItemName: string, price: number, buyP
 			method: "POST",
 			body: formdata
 		});
-		if (response.status === 200) {
-			return (response)
-		}
-		if (!response.ok) {
-			return ({ "message": "database error" })
-		}
+		return response;
 	} catch (error) {
-		return ({ "message": `api request failed: ${error}` })
+		console.log({ "message": `api request failed: ${error}` })
 	}
-};
+}

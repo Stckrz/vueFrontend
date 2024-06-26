@@ -43,7 +43,7 @@ export default defineComponent({
 				case "parReport": {
 					fetchBelowPar().then((data) => {
 						shopItems.value = data;
-						props.dataCallback(data);	
+						props.dataCallback(data);
 					});
 					break;
 				}
@@ -56,25 +56,37 @@ export default defineComponent({
 </script>
 
 <template>
-	<table>
-		<tr>
-			<th>id</th>
-			<th>name</th>
-			<th>price</th>
-			<th>quantity</th>
-			<th>par amount</th>
-		</tr>
-		<tr v-for="item in shopItems" :key="item.shopItemId">
-			<td>{{ item.shopItemId }}</td>
-			<td>{{ item.shopItemName }}</td>
-			<td>{{ item.price }}</td>
-			<td>{{ item.quantity }}</td>
-			<td>{{ item.parAmount }}</td>
-		</tr>
-	</table>
-	<div v-if="totalShopItemsCount">
-		<Pagination :setPage="setPage" :numberOfPages="totalPages" />
+	<div class="tablePageContainer">
+		<div class="itemCount">{{totalShopItemsCount}}</div>
+		<table>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Par Amount</th>
+			</tr>
+			<tr v-for="item in shopItems" :key="item.shopItemId">
+				<td>{{ item.shopItemId }}</td>
+				<td>{{ item.shopItemName }}</td>
+				<td>{{ item.price }}</td>
+				<td>{{ item.quantity }}</td>
+				<td>{{ item.parAmount }}</td>
+			</tr>
+		</table>
+		<div v-if="totalShopItemsCount">
+			<Pagination :setPage="setPage" :numberOfPages="totalPages" />
+		</div>
 	</div>
 </template>
 
-<style></style>
+<style scoped>
+.tablePageContainer{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-end;
+}
+</style>

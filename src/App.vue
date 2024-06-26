@@ -29,16 +29,16 @@ export default defineComponent({
 		<RouterLink class="navItem" to="/parReport">Par Report</RouterLink>
 	</nav>
 	<div class="appContainer">
-		<div>
+		<!-- <div> -->
 			<RouterView></RouterView>
-		</div>
+		<!-- </div> -->
 	</div>
 </template>
 
 <style scoped>
 .navbar {
 	width: 100vw;
-	height: 8%;
+	height: 6%;
 	display: flex;
 	align-items: center;
 	background-color: #737994;
