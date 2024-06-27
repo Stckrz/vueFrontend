@@ -20,7 +20,7 @@ export default defineComponent({
 			required: true,
 		},
 		orderItems: {
-			type: Array<ShopItem>,
+			type: Array as PropType<ShopItem[]>,
 			required: true,
 			default: () => []
 		}
@@ -62,7 +62,7 @@ export default defineComponent({
 					parAmount: orderCart.value[i].parAmount
 				}
 				fetchUpdateShopItem(updateObject)
-				router.push('/inventory')	
+				router.push('/inventory')
 			}
 		}
 		onMounted(() => {
@@ -142,9 +142,10 @@ export default defineComponent({
 	height: 10%;
 	width: 100%;
 }
-.closeButton{
+
+.closeButton {
 	height: 50%;
-	aspect-ratio: 1/1;	
+	aspect-ratio: 1/1;
 }
 
 .orderContentWindow {

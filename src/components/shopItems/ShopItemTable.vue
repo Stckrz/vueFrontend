@@ -3,11 +3,13 @@ import { defineComponent, ref, onMounted, PropType } from "vue";
 import { ShopItem, ItemCount } from "../../models/shopItemModel";
 import { fetchSaleItems, fetchSaleItemsCount, fetchBelowPar } from "../../library/fetch/storeItemFetch";
 import Pagination from "./../Pagination.vue";
+import ShopItemTableItem from './shopItemTableItem.vue'
 
 export default defineComponent({
 	name: "ShopItemTable",
 	components: {
-		Pagination
+		Pagination,
+		ShopItemTableItem
 	},
 	props: {
 		tableType: {
@@ -57,7 +59,7 @@ export default defineComponent({
 
 <template>
 	<div class="tablePageContainer">
-		<div class="itemCount">{{totalShopItemsCount}}</div>
+		<div class="itemCount">{{ totalShopItemsCount }}</div>
 		<table>
 			<tr>
 				<th>Id</th>
@@ -81,7 +83,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.tablePageContainer{
+.tablePageContainer {
 	height: 100%;
 	width: 100%;
 	display: flex;
