@@ -3,6 +3,7 @@ import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { ShopItem, OrderItem } from '../../models/shopItemModel';
 import ShopItemTableItem from './shopItemTableItem.vue';
 import { fetchUpdateShopItem } from '../../library/fetch/storeItemFetch';
+import { fetchPostBulkPurchase, fetchPostPurchasedItem } from '../../library/fetch/bulkPurchaseFetch';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -50,21 +51,29 @@ export default defineComponent({
 			)
 
 		}
-		const orderSubmitHandler = () => {
-			for (let i = 0; i < orderCart.value.length; i++) {
-				const newQuantity = (parseInt(orderCart.value[i].quantity) + parseInt(orderCart.value[i].orderAmount))
-				const updateObject: ShopItem = {
-					shopItemId: orderCart.value[i].shopItemId,
-					shopItemName: orderCart.value[i].shopItemName,
-					price: orderCart.value[i].price,
-					buyPrice: orderCart.value[i].buyPrice,
-					quantity: newQuantity,
-					parAmount: orderCart.value[i].parAmount
+
+		const orderSubmitHandler = async () => {
+			const newOrder = await fetchPostBulkPurchase(totalPrice.value);
+			if (newOrder) {
+				for (let i = 0; i < orderCart.value.length; i++) {
+					const newQuantity = (parseInt(orderCart.value[i].quantity) + parseInt(orderCart.value[i].orderAmount))
+					const updateObject: ShopItem = {
+						shopItemId: orderCart.value[i].shopItemId,
+						shopItemName: orderCart.value[i].shopItemName,
+						price: orderCart.value[i].price,
+						buyPrice: orderCart.value[i].buyPrice,
+						quantity: newQuantity,
+						parAmount: orderCart.value[i].parAmount
+					}
+					const response = await fetchUpdateShopItem(updateObject);
+					if (response?.status === 200) {
+						fetchPostPurchasedItem(parseInt(orderCart.value[i].shopItemId), newOrder.bulkPurchaseId, orderCart.value[i].orderAmount)
+					}
+					//				router.push('/inventory')
 				}
-				fetchUpdateShopItem(updateObject)
-				router.push('/inventory')
 			}
 		}
+
 		onMounted(() => {
 			props.orderItems.map((item) => {
 				setOrderCart([...orderCart.value, { ...item, orderAmount: (item.parAmount - item.quantity) }])
