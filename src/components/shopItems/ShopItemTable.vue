@@ -3,13 +3,15 @@ import { defineComponent, ref, onMounted, PropType } from "vue";
 import { ShopItem, ItemCount } from "../../models/shopItemModel";
 import { fetchSaleItems, fetchSaleItemsCount, fetchBelowPar } from "../../library/fetch/storeItemFetch";
 import Pagination from "./../Pagination.vue";
-import ShopItemTableItem from './shopItemTableItem.vue'
+import ShopItemTableItem from './shopItemTableItem.vue';
+import TableRender from '../tableRender.vue';
 
 export default defineComponent({
 	name: "ShopItemTable",
 	components: {
 		Pagination,
-		ShopItemTableItem
+		ShopItemTableItem,
+		TableRender
 	},
 	props: {
 		tableType: {
@@ -49,7 +51,6 @@ export default defineComponent({
 					});
 					break;
 				}
-
 			}
 		})
 		return { shopItems, currentPage, setPage, totalShopItemsCount, totalPages, tableType }
@@ -60,22 +61,7 @@ export default defineComponent({
 <template>
 	<div class="tablePageContainer">
 		<div class="itemCount">{{ totalShopItemsCount }}</div>
-		<table>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Price</th>
-				<th>Quantity</th>
-				<th>Par Amount</th>
-			</tr>
-			<tr v-for="item in shopItems" :key="item.shopItemId">
-				<td>{{ item.shopItemId }}</td>
-				<td>{{ item.shopItemName }}</td>
-				<td>{{ item.price }}</td>
-				<td>{{ item.quantity }}</td>
-				<td>{{ item.parAmount }}</td>
-			</tr>
-		</table>
+		<TableRender :objectArray="shopItems"/>
 		<div v-if="totalShopItemsCount">
 			<Pagination :setPage="setPage" :numberOfPages="totalPages" />
 		</div>

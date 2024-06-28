@@ -1,16 +1,31 @@
 import { BulkPurchase, PurchasedItem } from "../../models/bulkPurchaseModel";
-export async function fetchBulkPurchase() {
-	try {
-		const response = await fetch('http://localhost:8080/bulkPurchase/bulkPurchase.php')
-		const data = await response.json();
-		if (response.status === 200) {
-			return (data)
-		} else {
-			console.log("error retrieving bulkPurchases")
+export async function fetchBulkPurchase(id: number = 0) {
+	if (id === 0) {
+		try {
+			const response = await fetch('http://localhost:8080/bulkPurchase/bulkPurchase.php')
+			const data = await response.json();
+			if (response.status === 200) {
+				return (data)
+			} else {
+				console.log("error retrieving bulkPurchases")
+			}
 		}
-	}
-	catch (error) {
-		console.log({ "error": error });
+		catch (error) {
+			console.log({ "error": error });
+		}
+	} else{
+		try {
+			const response = await fetch(`http://localhost:8080/bulkPurchase/bulkPurchase.php?bulkPurchaseId=${id}`)
+			const data = await response.json();
+			if (response.status === 200) {
+				return (data)
+			} else {
+				console.log("error retrieving bulkPurchases")
+			}
+		}
+		catch (error) {
+			console.log({ "error": error });
+		}
 	}
 }
 
@@ -50,7 +65,6 @@ export async function fetchPostPurchasedItem(shopItemId: number, bulkPurchaseId:
 		bulkPurchaseId: bulkPurchaseId,
 		shopItemQuantity: shopItemQuantity
 	}
-	console.log(purchasedItemObject)
 	const formdata = new FormData();
 	for (const key in purchasedItemObject) {
 		formdata.append(key, purchasedItemObject[key as keyof PurchasedItem].toString());
@@ -63,7 +77,6 @@ export async function fetchPostPurchasedItem(shopItemId: number, bulkPurchaseId:
 		})
 		const data = await response.json()
 		if (response.status === 200) {
-			console.log(data)
 			return (data)
 		} else {
 			console.log("error posting purchasedItem")
@@ -72,4 +85,20 @@ export async function fetchPostPurchasedItem(shopItemId: number, bulkPurchaseId:
 	catch (error) {
 		console.log({ "error": error });
 	}
+}
+
+export async function fetchPurchasedItemsByPurchaseId(id: number){
+	try{
+		const response = await fetch(`http://localhost:8080/purchasedItems/index.php?bulkPurchaseId=${id}`)
+		const data = await response.json();
+		if (response.status === 200){
+			return (data);
+		} else{
+			console.log("error retrieving purchasedItems")
+		}
+	}
+	catch (error) {
+		console.log({"error": error})
+	}
+	
 }
