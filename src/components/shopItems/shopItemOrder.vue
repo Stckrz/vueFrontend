@@ -16,10 +16,12 @@ export default defineComponent({
 			type: Boolean,
 			required: true,
 		},
+
 		setOrderModalOpen: {
 			type: Function as PropType<(value: boolean) => void>,
 			required: true,
 		},
+
 		orderItems: {
 			type: Array as PropType<ShopItem[]>,
 			required: true,
@@ -49,7 +51,6 @@ export default defineComponent({
 					return acc
 				}, 0)
 			)
-
 		}
 
 		const orderSubmitHandler = async () => {
@@ -69,7 +70,7 @@ export default defineComponent({
 					if (response?.status === 200) {
 						fetchPostPurchasedItem(parseInt(orderCart.value[i].shopItemId), newOrder.bulkPurchaseId, orderCart.value[i].orderAmount)
 					}
-					//				router.push('/inventory')
+					router.push('/inventory')
 				}
 			}
 		}
@@ -92,7 +93,6 @@ export default defineComponent({
 				<button @click="handleModalClose" class="closeButton">X</button>
 			</div>
 			<div class="orderContentWindow">
-
 				<table>
 					<tr>
 						<th>Id</th>

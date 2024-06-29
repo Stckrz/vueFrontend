@@ -16,7 +16,6 @@ export default defineComponent({
 			shopItems.value = itemArray;
 		}
 
-
 		const orderModalOpen = ref<boolean>(false)
 		const setOrderModalOpen = (value: boolean) => {
 			orderModalOpen.value = value;
