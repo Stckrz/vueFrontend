@@ -1,14 +1,17 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import ShopItemTable from './ShopItemTable.vue';
 import { ShopItem } from '../../models/shopItemModel';
 import ShopItemOrder from './shopItemOrder.vue';
+import TableRender from '../tableRender.vue';
+import { fetchBelowPar } from '../../library/fetch/storeItemFetch';
 
 export default defineComponent({
 	name: "shopItemParReport",
 	components: {
 		ShopItemTable,
-		ShopItemOrder
+		ShopItemOrder,
+		TableRender
 	},
 	setup() {
 		const shopItems = ref<ShopItem[]>([]);
@@ -20,6 +23,12 @@ export default defineComponent({
 		const setOrderModalOpen = (value: boolean) => {
 			orderModalOpen.value = value;
 		}
+		onMounted(() => {
+			fetchBelowPar().then((data) => {
+				shopItems.value = data;
+				setShopItems(data);
+			});
+		})
 
 		return { setShopItems, shopItems, orderModalOpen, setOrderModalOpen }
 	},
@@ -37,7 +46,7 @@ export default defineComponent({
 		</div>
 		<div>
 			<div>Items Under Par</div>
-			<ShopItemTable :tableType="'parReport'" :dataCallback="setShopItems" />
+			<TableRender :objectArray="shopItems" />
 		</div>
 	</div>
 </template>

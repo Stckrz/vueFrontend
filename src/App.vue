@@ -4,12 +4,10 @@ import ShopItemTable from "./components/shopItems/ShopItemTable.vue"
 import NewShopItem from "./components/shopItems/newShopItem.vue"
 
 
-import Count from './components/Count.vue'
 
 export default defineComponent({
 	name: "App",
 	components: {
-		Count,
 		ShopItemTable,
 		NewShopItem
 	},
