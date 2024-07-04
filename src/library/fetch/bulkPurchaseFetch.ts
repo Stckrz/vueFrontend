@@ -1,8 +1,23 @@
 import { BulkPurchase, PurchasedItem } from "../../models/bulkPurchaseModel";
-export async function fetchBulkPurchase(id: number = 0) {
+
+export async function fetchBulkPurchase(page: number,) {
+	try {
+		const response = await fetch(`http://localhost:8080/bulkPurchase/bulkPurchase.php/?page=${page}`)
+		const data = await response.json();
+		if (response.status === 200) {
+			return data
+		} else {
+			return ({ "message": "internal database error" })
+		}
+	} catch (error) {
+		console.log({ "error": error })
+	}
+}
+
+export async function fetchBulkPurchaseById(id: number = 0) {
 	if (id === 0) {
 		try {
-			const response = await fetch('http://localhost:8080/bulkPurchase/bulkPurchase.php')
+			const response = await fetch(`http://localhost:8080/bulkPurchase/bulkPurchase.php`)
 			const data = await response.json();
 			if (response.status === 200) {
 				return (data)

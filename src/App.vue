@@ -28,9 +28,7 @@ export default defineComponent({
 		<RouterLink class="navItem" to="/purchaseReports">Purchase Reports</RouterLink>
 	</nav>
 	<div class="appContainer">
-		<!-- <div> -->
 			<RouterView></RouterView>
-		<!-- </div> -->
 	</div>
 </template>
 

@@ -30,7 +30,21 @@ export async function fetchBelowPar() {
 
 export async function fetchSaleItemsCount() {
 	try {
-		const response = await fetch(`http://localhost:8080/countItems.php`)
+		const response = await fetch(`http://localhost:8080/countItems.php?countType=shopItems`)
+		const data = await response.json();
+		if (response.status === 200) {
+			return data
+		} else {
+			return ({ "message": "internal database error" })
+		}
+	} catch (error) {
+		console.log({ "error": error })
+	}
+}
+
+export async function fetchPurchaseReportCount() {
+	try {
+		const response = await fetch(`http://localhost:8080/countItems.php?countType=purchaseReports`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data

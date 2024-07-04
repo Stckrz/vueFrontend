@@ -80,6 +80,7 @@ export default defineComponent({
 				setOrderCart([...orderCart.value, { ...item, orderAmount: (item.parAmount - item.quantity) }])
 			}),
 				calculateAndSetTotal()
+				console.log("orderItems", props.orderItems)
 		})
 		return { handleModalClose, totalPrice, setTotalPrice, orderCart, setOrderCart, calculateAndSetTotal, orderSubmitHandler }
 	}

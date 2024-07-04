@@ -78,7 +78,7 @@ export default defineComponent({
 <style>
 .newUserForm {
 	display: flex;
-	width: 50%;
+	width: 30%;
 	flex-direction: column;
 	gap: 10px;
 }
@@ -86,7 +86,11 @@ export default defineComponent({
 .inputContainer {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: flex-end;
+}
+
+.inputContainer input{
+	width: 100%;
 }
 </style>
