@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from 'vue';
-import { fetchBulkPurchase, fetchPurchasedItemsByPurchaseId } from '../../library/fetch/bulkPurchaseFetch';
+import { fetchBulkPurchase, fetchBulkPurchaseById, fetchPurchasedItemsByPurchaseId } from '../../library/fetch/bulkPurchaseFetch';
 import { useRoute } from 'vue-router';
 import { BulkPurchase, PurchasedItem } from '../../models/bulkPurchaseModel';
 import TableRender from '../tableRender.vue';
@@ -12,12 +12,11 @@ export default defineComponent({
 	setup() {
 		const route = useRoute();
 		const bulkPurchaseId = route.params.id;
-//		const bulkPurchaseData = ref<BulkPurchase | null>(null)
-		const bulkPurchaseData = ref();
+		const bulkPurchaseData = ref<BulkPurchase | null>(null)
 		const bulkPurchaseItems = ref<PurchasedItem[]>([])
 
 		onMounted(() => {
-			fetchBulkPurchase(bulkPurchaseId).then((data) => {
+			fetchBulkPurchaseById(bulkPurchaseId).then((data) => {
 				bulkPurchaseData.value = data[0]
 				console.log("bulkPurchaseData", bulkPurchaseData.value)
 			})
