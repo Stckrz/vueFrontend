@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { OrderedItem, ReceivedOrder } from '../../models/receivedOrder';
 import { fetchReceivedOrderById } from '../../library/fetch/orderedItemsFetch';
 import { fetchOrderedItemsByPurchaseId } from '../../library/fetch/orderedItemsFetch';
+import FulfillOrderModal from '../receivedOrders/fulfillOrderModal.vue'
 import TableRender from '../tableRender.vue';
 
 export default defineComponent({
@@ -41,6 +42,13 @@ export default defineComponent({
 </script>
 
 <template>
+		<div v-if="orderModalOpen">
+			<FulfillOrderModal :setOrderModalOpen="setOrderModalOpen" :orderModalOpen="orderModalOpen"/>
+		</div>
+
+		<div class="flex-right">
+			<button @click="orderModalOpen = true">Generate order</button>
+		</div>
 	<div class="tableContainer">
 	<div class="receivedOrderData" v-if="receivedOrderData">
 		<div>Order Id: {{ receivedOrderData.receivedOrderId }}</div>
