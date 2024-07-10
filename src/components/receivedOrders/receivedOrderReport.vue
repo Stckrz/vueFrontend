@@ -51,6 +51,7 @@ export default defineComponent({
 	<div class="bulkPurchaseItemsTable" v-if="receivedOrderItems.length > 0">
 		<TableRender :objectArray="receivedOrderItems" />
 	</div>
+	<button>fulfill order</button>
 	</div>
 </template>
 

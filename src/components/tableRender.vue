@@ -11,6 +11,7 @@ export default defineComponent({
 	},
 	setup(props) {
 		onMounted(() => {
+		console.log("stuff", props.objectArray)
 			console.log(props.objectArray)
 		})
 	}

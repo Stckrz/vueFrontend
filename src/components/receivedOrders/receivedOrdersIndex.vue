@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import Pagination from '../Pagination.vue';
-import { fetchReceivedOrders } from '../../library/fetch/orderedItemsFetch';
+import { fetchReceivedOrders, fetchUnfulfilledReceivedOrders } from '../../library/fetch/orderedItemsFetch';
 import { ReceivedOrder } from '../../models/receivedOrder';
 
 export default defineComponent({
@@ -20,22 +20,38 @@ export default defineComponent({
 			currentPage.value = page;
 			fetchReceivedOrders(page).then((data: ReceivedOrder[]) => { receivedOrders.value = data })
 		}
+		const setSearchType = (searchType: string = "all") => {
+			switch (searchType) {
+				case "all":
+					fetchReceivedOrders(1).then((data) => {
+						receivedOrders.value = data;
+					})
+					break;
+				case "unfulfilled":
+					fetchUnfulfilledReceivedOrders().then((data) => {
+						receivedOrders.value = data;
+					})
+					break;
+			}
+
+		};
 
 		onMounted(() => {
 			fetchReceivedOrders(1).then((data) => {
 				receivedOrders.value = data;
 			})
-			/*			fetchPurchaseReportCount().then((count: ItemCount) => {
-							totalBulkPurchaseCount.value = count.totalItems;
+			/*			fetchReceivedOrderCount().then((count: ItemCount) => {
+							totalReceivedOrderCount.value = count.totalItems;
 							totalPages.value = count.numberOfPages;
 						})*/
 		})
 		return {
 			receivedOrders,
-			//totalBulkPurchaseCount, 
+			//totalReceivedOrderCount, 
 			setPage,
 			currentPage,
-			totalPages
+			totalPages,
+			setSearchType
 		}
 	}
 
@@ -44,6 +60,14 @@ export default defineComponent({
 
 <template>
 	<div class="tablePageContainer">
+		<div class="buttonBox">
+			<button @click="setSearchType('all')">
+				all
+			</button>
+			<button @click="setSearchType('unfulfilled')">
+				unfulfilled
+			</button>
+		</div>
 		<table>
 			<tr>
 				<th>Purchase Id</th>
@@ -65,4 +89,15 @@ export default defineComponent({
 	</div>
 </template>
 
-<style></style>
+<style scoped>
+.buttonBox{
+	display: flex;
+	gap: 5px;
+	align-self: flex-end;
+}
+.tablePageContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+</style>

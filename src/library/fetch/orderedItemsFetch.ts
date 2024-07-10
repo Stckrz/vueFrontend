@@ -14,6 +14,20 @@ export async function fetchReceivedOrders(page: number,) {
 	}
 }
 
+export async function fetchUnfulfilledReceivedOrders() {
+	try {
+		const response = await fetch(`http://localhost:8080/receivedOrders/index.php/?unfulfilled`)
+		const data = await response.json();
+		if (response.status === 200) {
+			return data
+		} else {
+			return ({ "message": "internal database error" })
+		}
+	} catch (error) {
+		console.log({ "error": error })
+	}
+}
+
 export async function fetchReceivedOrderById(id: number = 0) {
 	if (id === 0) {
 		try {
@@ -104,7 +118,7 @@ export async function fetchPostOrderedItem(shopItemId: number, receivedOrderId: 
 
 export async function fetchOrderedItemsByPurchaseId(id: number){
 	try{
-		const response = await fetch(`http://localhost:8080/orderedItems/index.php?receivedOrdersId=${id}`)
+		const response = await fetch(`http://localhost:8080/orderedItems/index.php?receivedOrderId=${id}`)
 		const data = await response.json();
 		if (response.status === 200){
 			return (data);
@@ -116,4 +130,27 @@ export async function fetchOrderedItemsByPurchaseId(id: number){
 		console.log({"error": error})
 	}
 	
+}
+
+export async function fetchUpdateReceivedOrder(receivedOrder: ReceivedOrder) {
+	const orderId = receivedOrder.receivedOrderId;
+	const updateItemObject = {
+		totalOrderAmount: receivedOrder.totalOrderAmount,
+		orderDate: receivedOrder.orderDate,
+		fulfilledDate: receivedOrder.fulfilledDate,
+	}
+	try {
+		const response = await fetch(`http://localhost:8080/orderedItems/index.php/?receivedOrderId=${orderId}`, {
+			method: "PUT",
+			body: JSON.stringify(updateItemObject)
+		});
+		if (response.status === 200) {
+			return (response);
+		} else {
+			console.log({ "message": "update failed" });
+		}
+	}
+	catch (error) {
+		console.log({ "message": `Update failed: ${error}` });
+	}
 }
