@@ -34,7 +34,7 @@ export default defineComponent({
 			props.setOrderModalOpen(false)
 		}
 
-		const totalPrice = ref(0);
+		const totalPrice = ref(0.00);
 		const setTotalPrice = (price: number) => {
 			totalPrice.value = price;
 		}
@@ -154,7 +154,7 @@ export default defineComponent({
 }
 
 .closeButton {
-	height: 50%;
+	height: 100%;
 	aspect-ratio: 1/1;
 }
 

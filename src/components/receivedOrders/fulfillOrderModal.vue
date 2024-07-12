@@ -1,17 +1,34 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { OrderedItem, ReceivedOrder } from "../../models/receivedOrder";
+import { ShopItem } from "../../models/shopItemModel";
+import TableRender from '../tableRender.vue';
+
+import { fetchUpdateShopItem, fetchSaleItemById } from "../../library/fetch/storeItemFetch";
+import { fetchUpdateReceivedOrderFulfilledDate } from "../../library/fetch/orderedItemsFetch";
 export default defineComponent({
-	name: FulfillOrderModal,
+	name: "FulfillOrderModal",
+	components: {
+		TableRender
+	},
 	props: {
 		orderModalOpen: {
 			type: Boolean,
 			required: true,
 		},
-
 		setOrderModalOpen: {
 			type: Function as PropType<(value: boolean) => void>,
 			required: true,
 		},
+		receivedOrderItems: {
+			type: Array as PropType<OrderedItem[]>,
+			required: true,
+		},
+		receivedOrderData: {
+			type: Object as PropType<ReceivedOrder>,
+			required: true,
+		}
 
 	},
 	setup(props) {
@@ -19,18 +36,43 @@ export default defineComponent({
 		const handleModalClose = () => {
 			props.setOrderModalOpen(false)
 		}
+		//		let salePossible = true
 
-		const totalPrice = ref(0);
-		const setTotalPrice = (price: number) => {
-			totalPrice.value = price;
+		const salePossible = ref(true);
+		const setSalePossible = (sale: boolean) => {
+			salePossible.value = sale;
+		}
+		const insufficientItems = ref<string[]>([]);
+		const addToInsufficientItems = (itemName: string) => {
+			insufficientItems.value.push(itemName);
 		}
 
+		const handleProcessOrder = async () => {
+			let response = await fetchUpdateReceivedOrderFulfilledDate(props.receivedOrderData)
+			if (response?.status === 200) {
+				for (let i = 0; i < props.receivedOrderItems.length; i++) {
+					await fetchSaleItemById(props.receivedOrderItems[i].shopItemId).then((data) => {
+						const newQuantity = (data[0].quantity - props.receivedOrderItems[i].orderedQuantity)
+						const updatedShopItemObject = { ...data[0], quantity: newQuantity };
+						fetchUpdateShopItem(updatedShopItemObject)
+					})
+				}
+			}
+			router.push('/inventory');
+		}
 		onMounted(() => {
+			for (let i = 0; i < props.receivedOrderItems.length; i++) {
+			console.log(props.receivedOrderItems[i])
+				if (props.receivedOrderItems[i].quantity < props.receivedOrderItems[i].orderedQuantity) {
+					setSalePossible(false)
+					addToInsufficientItems(props.receivedOrderItems[i].shopItemName)
+				}
+			}
 		})
-		return { handeleModalClose, totalPrice, setTotalPrice }
+
+		return { handleModalClose, handleProcessOrder, salePossible, setSalePossible, insufficientItems, addToInsufficientItems }
 	}
 })
-
 </script>
 
 <template>
@@ -40,12 +82,26 @@ export default defineComponent({
 				<div class="closeButtonBox">
 					<button @click="handleModalClose" class="closeButton">X</button>
 				</div>
+				<div class="orderInfoBox">
+					<div>id: {{ receivedOrderData.receivedOrderId }}</div>
+					<div>Order Date: {{ receivedOrderData.orderDate }}</div>
+				</div>
 				<div class="orderContentWindow">
+
+					<table>
+						<TableRender :objectArray="receivedOrderItems" />
+					</table>
+					<div v-if="!salePossible">
+						<div v-for="item in insufficientItems">
+							<div>insufficient quantity: </div>
+							<div>{{item}}</div>
+						</div>
+					</div>
 				</div>
 				<div class="orderInfo">
-					<div>Total: total here</div>
-					<div>
-						<button>Order</button>
+					<div>Total: {{ receivedOrderData.totalOrderAmount }}</div>
+					<div v-if="salePossible">
+						<button @click="handleProcessOrder">Process</button>
 					</div>
 				</div>
 			</div>
@@ -88,8 +144,13 @@ export default defineComponent({
 }
 
 .closeButton {
-	height: 50%;
+	height: 100%;
 	aspect-ratio: 1/1;
+}
+
+.orderInfoBox {
+	display: flex;
+	gap: 10px;
 }
 
 .orderContentWindow {

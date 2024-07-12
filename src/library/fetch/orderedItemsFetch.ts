@@ -58,7 +58,7 @@ export async function fetchReceivedOrderById(id: number = 0) {
 	}
 }
 
-export async function fetchPostBulkPurchase(totalPurchaseAmount: number) {
+export async function fetchPostReceivedOrder(totalPurchaseAmount: number) {
 	const currentDate = new Date();
 	const receivedOrdersObject = {
 		totalPurchaseAmount: totalPurchaseAmount,
@@ -132,6 +132,30 @@ export async function fetchOrderedItemsByPurchaseId(id: number){
 	
 }
 
+export async function fetchUpdateReceivedOrderFulfilledDate(receivedOrder: ReceivedOrder) {
+	const currentDate = new Date();
+	const orderId = receivedOrder.receivedOrderId;
+	const updateItemObject = {
+		totalOrderAmount: receivedOrder.totalOrderAmount,
+		orderDate: receivedOrder.orderDate,
+		fulfilledDate: currentDate.toISOString().split('T')[0]
+	}
+	try {
+		const response = await fetch(`http://localhost:8080/receivedOrders/index.php/?receivedOrderId=${orderId}`, {
+			method: "PUT",
+			body: JSON.stringify(updateItemObject)
+		});
+		console.log(updateItemObject)
+		if (response.status === 200) {
+			return (response);
+		} else {
+			console.log({ "message": "update failed" });
+		}
+	}
+	catch (error) {
+		console.log({ "message": `Update failed: ${error}` });
+	}
+}
 export async function fetchUpdateReceivedOrder(receivedOrder: ReceivedOrder) {
 	const orderId = receivedOrder.receivedOrderId;
 	const updateItemObject = {

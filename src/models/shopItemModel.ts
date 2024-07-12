@@ -6,6 +6,7 @@ export interface ItemCount {
 export interface ShopItem{
 	shopItemId: number,
 	shopItemName: string,
+	shopItemCategory: string,
 	price: number,
 	buyPrice: number,
 	quantity: number,
@@ -19,6 +20,7 @@ export interface OrderItem extends ShopItem{
 export const ShopItemDefault = {
 	shopItemId: 0,
 	shopItemName: "",
+	shopItemCategory: "",
 	price: 0,
 	buyPrice: 0,
 	quantity: 0,
@@ -26,7 +28,7 @@ export const ShopItemDefault = {
 }
 export const OrderItemDefault = {
 	shopItemId: 0,
-	shopItemName: "",
+	shopItemCategory: "",
 	price: 0,
 	buyPrice: 0,
 	quantity: 0,

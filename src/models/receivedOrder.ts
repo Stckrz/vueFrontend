@@ -7,6 +7,8 @@ export interface ReceivedOrder{
 
 export interface OrderedItem{
 	shopItemId: number,
+	shopItemName: string,
 	receivedOrderId: number,
-	shopItemQuantity: number,
+	orderedQuantity: number,
+	quantity: number
 }

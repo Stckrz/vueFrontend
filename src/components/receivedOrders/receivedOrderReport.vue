@@ -10,7 +10,8 @@ import TableRender from '../tableRender.vue';
 export default defineComponent({
 	name: "receivedOrderReport",
 	components: {
-		TableRender
+		TableRender,
+		FulfillOrderModal
 	},
 
 	setup() {
@@ -21,20 +22,20 @@ export default defineComponent({
 		//const receivedOrderData = ref();
 		const receivedOrderItems = ref<OrderedItem[]>([])
 
+		const orderModalOpen = ref<boolean>(false)
+		const setOrderModalOpen = (value: boolean) => {
+			orderModalOpen.value = value;
+		}
 		onMounted(() => {
 			fetchReceivedOrderById(receivedOrderId).then((data) => {
 				receivedOrderData.value = data[0]
-				console.log("receivedOrderData", receivedOrderData.value)
 			})
 
 			fetchOrderedItemsByPurchaseId(receivedOrderId).then((data) => {
 				receivedOrderItems.value = data
 			})
-			watch(receivedOrderData, (newValue) => {
-				console.log('Received Order Data Updated:', newValue);
-			});
 		})
-		return { receivedOrderData, receivedOrderItems }
+		return { receivedOrderData, receivedOrderItems, orderModalOpen, setOrderModalOpen }
 
 	}
 
@@ -42,30 +43,31 @@ export default defineComponent({
 </script>
 
 <template>
-		<div v-if="orderModalOpen">
-			<FulfillOrderModal :setOrderModalOpen="setOrderModalOpen" :orderModalOpen="orderModalOpen"/>
-		</div>
+	<div v-if="orderModalOpen">
+		<FulfillOrderModal :setOrderModalOpen="setOrderModalOpen" :orderModalOpen="orderModalOpen"
+			:receivedOrderItems="receivedOrderItems" :receivedOrderData="receivedOrderData" />
+	</div>
 
-		<div class="flex-right">
-			<button @click="orderModalOpen = true">Generate order</button>
-		</div>
 	<div class="tableContainer">
-	<div class="receivedOrderData" v-if="receivedOrderData">
-		<div>Order Id: {{ receivedOrderData.receivedOrderId }}</div>
-		<div>Order Total: {{ receivedOrderData.totalOrderAmount }}</div>
-		<div>Order Date: {{ receivedOrderData.orderDate }}</div>
-		<div>Fulfilled Date: {{ receivedOrderData.fulfilledDate }}</div>
-	</div>
-	<div class="bulkPurchaseItemsTable" v-if="receivedOrderItems.length > 0">
-		<TableRender :objectArray="receivedOrderItems" />
-	</div>
-	<button>fulfill order</button>
+		<div class="receivedOrderData" v-if="receivedOrderData">
+			<div>Order Id: {{ receivedOrderData.receivedOrderId }}</div>
+			<div>Order Total: {{ receivedOrderData.totalOrderAmount }}</div>
+			<div>Order Date: {{ receivedOrderData.orderDate }}</div>
+			<div>Fulfilled Date: {{ receivedOrderData.fulfilledDate }}</div>
+		</div>
+		<div class="bulkPurchaseItemsTable" v-if="receivedOrderItems.length > 0">
+			<TableRender :objectArray="receivedOrderItems" />
+		</div>
+		<div class="flex-right" v-if="!receivedOrderData?.fulfilledDate">
+			<button @click="orderModalOpen = true">Fulfill order</button>
+		</div>
 	</div>
 </template>
 
 <style scoped>
 .tableContainer {
 	display: flex;
+	gap: 5px;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;

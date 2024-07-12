@@ -8,6 +8,7 @@ export default defineComponent({
 	setup() {
 		const router = useRouter();
 		const shopItemName = ref("");
+		const shopItemCategory = ref("");
 		const price = ref();
 		const buyPrice = ref();
 		const quantity = ref();
@@ -17,7 +18,7 @@ export default defineComponent({
 			if (event) {
 				event.preventDefault()
 			}
-			fetchNewShopItem(shopItemName.value, price.value, buyPrice.value, quantity.value, parAmount.value).then(
+			fetchNewShopItem(shopItemName.value, shopItemCategory.value, price.value, buyPrice.value, quantity.value, parAmount.value).then(
 				(response) => {
 					response !== undefined && router.push('/inventory')
 				}
@@ -25,6 +26,7 @@ export default defineComponent({
 		};
 		return {
 			shopItemName,
+			shopItemCategory,
 			price,
 			buyPrice,
 			quantity,
@@ -40,6 +42,12 @@ export default defineComponent({
 		<div class="inputContainer">
 			<label for="shopItemName">Item Name: </label>
 			<input v-model="shopItemName" type="text" id="shopItemName" name="shopItemName">
+			</input>
+		</div>
+
+		<div class="inputContainer">
+			<label for="shopItemCategory">Item Category: </label>
+			<input v-model="shopItemCategory" type="text" id="shopItemCategory" name="shopItemCategory">
 			</input>
 		</div>
 

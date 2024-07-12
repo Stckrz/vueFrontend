@@ -9,12 +9,12 @@ export default defineComponent({
 			default: () => []
 		}
 	},
-	setup(props) {
+/*	setup(props) {
 		onMounted(() => {
 		console.log("stuff", props.objectArray)
 			console.log(props.objectArray)
 		})
-	}
+	}*/
 })
 </script>
 
