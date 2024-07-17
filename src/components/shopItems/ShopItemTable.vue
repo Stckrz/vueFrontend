@@ -45,7 +45,7 @@ export default defineComponent({
 <template>
 	<div class="tablePageContainer">
 		<div class="itemCount">{{ totalShopItemsCount }}</div>
-		<TableRender :objectArray="shopItems" />
+		<TableRender :objectArray="shopItems" linkKey="shopItemId"/>
 		<div v-if="totalShopItemsCount">
 			<Pagination :setPage="setPage" :numberOfPages="totalPages" />
 		</div>

@@ -9,6 +9,7 @@ import purchaseReportsIndex from "./components/purchaseReports/purchaseReportsIn
 import purchaseReport from "./components/purchaseReports/purchaseReport.vue";
 import receivedOrdersIndex from "./components/receivedOrders/receivedOrdersIndex.vue";
 import receivedOrderReport from "./components/receivedOrders/receivedOrderReport.vue";
+import shopItemView from "./components/shopItems/shopItem.vue";
 
 
 const router = createRouter({
@@ -16,6 +17,7 @@ const router = createRouter({
 	routes: [
 		{ path: "/inventory", component: ShopItemTable },
 		{ path: "/newItem", component: NewShopItem },
+		{ path: "/shopItem/:id", component: shopItemView },
 		{ path: "/parReport", component: ShopItemParReport },
 		{ path: "/purchaseReports", component: purchaseReportsIndex },
 		{ path: "/purchaseReports/:id", name: "purchaseReport", component: purchaseReport },

@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
+import { useRouter, RouterLink } from 'vue-router';
 export default defineComponent({
 	name: "TableRender",
 	props: {
@@ -7,14 +8,20 @@ export default defineComponent({
 			type: Array,
 			required: true,
 			default: () => []
+		},
+		linkKey: {
+			type: String,
+			required: false
+		},
+		linkUrl: {
+			type: String,
+			required: false
 		}
 	},
-/*	setup(props) {
-		onMounted(() => {
-		console.log("stuff", props.objectArray)
-			console.log(props.objectArray)
-		})
-	}*/
+	setup() {
+		const route = useRouter();
+		return { route }
+	}
 })
 </script>
 
@@ -24,11 +31,15 @@ export default defineComponent({
 			<th v-for="(key, value) in objectArray[0]" :key="key">{{ value }}</th>
 		</tr>
 		<tr v-for="objectArrayItem in objectArray">
-			<td v-for="item in objectArrayItem">
-				{{ item }}
+			<td v-for="item, key in objectArrayItem">
+				<template v-if="key === linkKey">
+				<RouterLink :to="`/shopItem/${item}`">{{item}}</RouterLink>
+				</template>
+				<template v-else>
+					{{ item }}
+					</template>
 			</td>
 		</tr>
-
 	</table>
 </template>
 
