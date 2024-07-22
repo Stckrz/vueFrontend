@@ -2,7 +2,6 @@
 import { defineComponent, PropType, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { OrderedItem, ReceivedOrder } from "../../models/receivedOrder";
-import { ShopItem } from "../../models/shopItemModel";
 import TableRender from '../tableRender.vue';
 
 import { fetchUpdateShopItem, fetchSaleItemById } from "../../library/fetch/storeItemFetch";
@@ -34,7 +33,7 @@ export default defineComponent({
 	setup(props) {
 		const router = useRouter();
 		const handleModalClose = () => {
-			props.setOrderModalOpen(false)
+			props.setOrderModalOpen(false);
 		}
 		//		let salePossible = true
 
@@ -109,7 +108,7 @@ export default defineComponent({
 	</div>
 </template>
 
-<style>
+<style scoped>
 .modalFade {
 	position: absolute;
 	top: 0;

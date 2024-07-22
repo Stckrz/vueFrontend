@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { OrderedItem, ReceivedOrder } from '../../models/receivedOrder';
 import { fetchReceivedOrderById } from '../../library/fetch/orderedItemsFetch';

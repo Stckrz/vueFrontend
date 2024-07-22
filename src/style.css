@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 table, th, td {
 	border-collapse: collapse;
 	border: 1px solid black;
@@ -34,7 +35,6 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  /* min-width: 320px; */
   min-height: 100vh;
 }
 
@@ -47,19 +47,28 @@ button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
+  margin: 5px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  /* background-color: #1a1a1a; */
+  background-color: #b5bfe2;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s background-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+button:active{
+  background-color: #656cff;
+}
+
+input{
+	background-color: #ccd0da;
+	border-style: solid;
+	padding: 5px;
+	border-width: 1px;
 }
 
 .card {
@@ -67,11 +76,9 @@ button:focus-visible {
 }
 
 #app {
-  /* max-width: 1280px; */
   width: 100vw;
   max-width: 100%;
   margin: 0 auto;
-  /* padding: 2rem; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -83,10 +90,12 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
 	background-color: #8c8fa1;
   }
+
   button {
     background-color: #acb0cb;
   }

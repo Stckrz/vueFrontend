@@ -33,7 +33,7 @@ export default defineComponent({
 		<tr v-for="objectArrayItem in objectArray">
 			<td v-for="item, key in objectArrayItem">
 				<template v-if="key === linkKey">
-				<RouterLink :to="`/shopItem/${item}`">{{item}}</RouterLink>
+					<RouterLink :to="`${linkUrl}/${item}`">{{item}}</RouterLink>
 				</template>
 				<template v-else>
 					{{ item }}

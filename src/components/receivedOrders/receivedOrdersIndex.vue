@@ -3,14 +3,15 @@ import { defineComponent, onMounted, ref } from 'vue';
 import Pagination from '../Pagination.vue';
 import { fetchReceivedOrders, fetchUnfulfilledReceivedOrders } from '../../library/fetch/orderedItemsFetch';
 import { ReceivedOrder } from '../../models/receivedOrder';
+import TableRender from '../tableRender.vue'
 
 export default defineComponent({
 	name: "receivedOrdersIndex",
 	components: {
-		Pagination
+		Pagination,
+		TableRender
 	},
 	setup() {
-
 		const receivedOrders = ref();
 		// const totalReceivedOrdersCount = ref()
 
@@ -33,7 +34,6 @@ export default defineComponent({
 					})
 					break;
 			}
-
 		};
 
 		onMounted(() => {
@@ -54,7 +54,6 @@ export default defineComponent({
 			setSearchType
 		}
 	}
-
 })	
 </script>
 
@@ -68,33 +67,17 @@ export default defineComponent({
 				unfulfilled
 			</button>
 		</div>
-		<table>
-			<tr>
-				<th>Purchase Id</th>
-				<th>Order Date</th>
-				<th>Total Purchase Price</th>
-				<th>Fulfilled Date</th>
-			</tr>
-			<tr v-for="item in receivedOrders" :key="item.receivedOrderId">
-				<td>
-					<RouterLink class="navItem" :to="'/orderReports/' + item.receivedOrderId">
-						{{ item.receivedOrderId }}
-					</RouterLink>
-				</td>
-				<td>{{ item.orderDate }}</td>
-				<td>{{ item.totalOrderAmount }}</td>
-				<td>{{ item.fulfilledDate }}</td>
-			</tr>
-		</table>
+		<TableRender :objectArray="receivedOrders" linkKey="receivedOrderId" linkUrl="/orderReports" />
 	</div>
 </template>
 
 <style scoped>
-.buttonBox{
+.buttonBox {
 	display: flex;
 	gap: 5px;
 	align-self: flex-end;
 }
+
 .tablePageContainer {
 	display: flex;
 	flex-direction: column;

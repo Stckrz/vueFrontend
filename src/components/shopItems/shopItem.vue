@@ -11,6 +11,7 @@ export default defineComponent({
 		const saleItem = ref<ShopItem | null>()
 		const editMode = ref(false)
 
+
 		const updateField = (updateKey: string, newValue: any) => {
 			const saleItemCopy = saleItem.value
 			console.log(saleItemCopy)
@@ -22,12 +23,13 @@ export default defineComponent({
 						saleItemCopy[key] = newValue;
 					}
 				})
+				console.log(saleItemCopy)
 				saleItem.value = saleItemCopy
 			}
 		}
-
 		const updateShopItem = async (shopItem: ShopItem) => {
-			await fetchUpdateShopItem(shopItem);
+			const response = await fetchUpdateShopItem(shopItem);
+			console.log(response)
 		}
 
 		onMounted(() => {
@@ -41,7 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
-	<div>
+	<div v-if="saleItem">
 		<div class="itemData" v-if="saleItem && !editMode">
 			<table>
 				<tr v-for="item, key in saleItem">
@@ -56,8 +58,7 @@ export default defineComponent({
 				<tr v-for="item, key in saleItem">
 					<td>{{ key }}</td>
 					<td v-if="key !== 'shopItemId'">
-						<input
-							@change="updateField(key, ($event.target as HTMLInputElement).value)"
+						<input @change="updateField(key, ($event.target as HTMLInputElement).value)"
 							:placeholder="item"></input>
 					</td>
 					<td v-if="key === 'shopItemId'">{{ item }}</td>

@@ -22,6 +22,7 @@ export default defineComponent({
 
 <template>
 	<nav class="navbar">
+		<RouterLink class="navItem" to="/">Home</RouterLink>
 		<RouterLink class="navItem" to="/inventory">Inventory</RouterLink>
 		<RouterLink class="navItem" to="/newItem">New Item</RouterLink>
 		<RouterLink class="navItem" to="/parReport">Par Report</RouterLink>
@@ -36,7 +37,7 @@ export default defineComponent({
 <style scoped>
 .navbar {
 	width: 100vw;
-	height: 6%;
+	height: 40px;
 	display: flex;
 	align-items: center;
 	background-color: #737994;

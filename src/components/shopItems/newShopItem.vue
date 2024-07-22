@@ -16,11 +16,11 @@ export default defineComponent({
 
 		const newItemHandler = (event: MouseEvent) => {
 			if (event) {
-				event.preventDefault()
+				event.preventDefault();
 			}
 			fetchNewShopItem(shopItemName.value, shopItemCategory.value, price.value, buyPrice.value, quantity.value, parAmount.value).then(
 				(response) => {
-					response !== undefined && router.push('/inventory')
+					response !== undefined && router.push('/inventory');
 				}
 			)
 		};
@@ -83,7 +83,7 @@ export default defineComponent({
 	</form>
 </template>
 
-<style>
+<style scoped>
 .newUserForm {
 	display: flex;
 	width: 30%;

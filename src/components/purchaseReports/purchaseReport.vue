@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from 'vue';
-import { fetchBulkPurchase, fetchBulkPurchaseById, fetchPurchasedItemsByPurchaseId } from '../../library/fetch/bulkPurchaseFetch';
+import { fetchBulkPurchaseById, fetchPurchasedItemsByPurchaseId } from '../../library/fetch/bulkPurchaseFetch';
 import { useRoute } from 'vue-router';
 import { BulkPurchase, PurchasedItem } from '../../models/bulkPurchaseModel';
 import TableRender from '../tableRender.vue';
@@ -34,7 +34,6 @@ export default defineComponent({
 
 <template>
 	<div class="tableContainer">
-
 		<div class="bulkPurchaseData" v-if="bulkPurchaseData">
 			<div>Bulk Purchase Id: {{ bulkPurchaseData.bulkPurchaseId }}</div>
 			<div>Purchase Date: {{ bulkPurchaseData.purchaseDate }}</div>

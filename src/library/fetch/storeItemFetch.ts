@@ -14,6 +14,20 @@ export async function fetchSaleItems(page: number,) {
 	}
 }
 
+export async function fetchSaleItemBySearchString(searchString: string) {
+	try {
+		const response = await fetch(`http://localhost:8080/shopItems.php/?itemNameString=${searchString}`)
+		const data = await response.json();
+		if (response.status === 200) {
+			return data
+		} else {
+			return ({ "message": "internal database error" })
+		}
+	} catch (error) {
+		console.log({ "error": error })
+	}
+}
+
 export async function fetchSaleItemById(shopItemId: number) {
 	try {
 		const response = await fetch(`http://localhost:8080/shopItems.php/?shopItemId=${shopItemId}`)
@@ -56,6 +70,21 @@ export async function fetchSaleItemsCount() {
 	}
 }
 
+export async function fetchSaleItemCategories(){
+	try{
+		const response = await fetch('http://localhost:8080/shopItems?categoryList');
+		const data = await response.json();
+		if(response.status === 200){
+			return data
+		} else {
+			return ({"message": "internal database error"})
+		}
+	}
+	catch (error){
+		console.log({"error": error})
+	}
+}
+
 export async function fetchPurchaseReportCount() {
 	try {
 		const response = await fetch(`http://localhost:8080/countItems.php?countType=purchaseReports`)
@@ -76,7 +105,7 @@ export async function fetchUpdateShopItem(shopItem: ShopItem) {
 		shopItemName: shopItem.shopItemName,
 		shopItemCategory: shopItem.shopItemCategory,
 		price: shopItem.price,
-		buyPrice: shopItem.price,
+		buyPrice: shopItem.buyPrice,
 		quantity: shopItem.quantity,
 		parAmount: shopItem.parAmount
 	}
@@ -86,12 +115,13 @@ export async function fetchUpdateShopItem(shopItem: ShopItem) {
 			body: JSON.stringify(updateItemObject)
 
 		});
+		const data = await response.json();
 		if (response.status === 200) {
 			return (response);
 		} else {
-			console.log({ "message": "update failed" });
+			console.log("response", data.message);
+			return { "message": "update failed" };
 		}
-
 	}
 	catch (error) {
 		console.log({ "message": `Update failed: ${error}` });

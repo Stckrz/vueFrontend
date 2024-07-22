@@ -3,7 +3,7 @@ export interface ItemCount {
 	numberOfPages: number
 }
 
-export interface ShopItem{
+export interface ShopItem {
 	shopItemId: number,
 	shopItemName: string,
 	shopItemCategory: string,
@@ -13,7 +13,7 @@ export interface ShopItem{
 	parAmount: number
 }
 
-export interface OrderItem extends ShopItem{
+export interface OrderItem extends ShopItem {
 	orderAmount: number
 }
 

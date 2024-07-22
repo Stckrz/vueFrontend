@@ -31,7 +31,7 @@ export default defineComponent({
 	setup(props) {
 		const router = useRouter();
 		const handleModalClose = () => {
-			props.setOrderModalOpen(false)
+			props.setOrderModalOpen(false);
 		}
 
 		const totalPrice = ref(0.00);
@@ -61,6 +61,7 @@ export default defineComponent({
 					const updateObject: ShopItem = {
 						shopItemId: orderCart.value[i].shopItemId,
 						shopItemName: orderCart.value[i].shopItemName,
+						shopItemCategory: orderCart.value[i].shopItemCategory,
 						price: orderCart.value[i].price,
 						buyPrice: orderCart.value[i].buyPrice,
 						quantity: newQuantity,

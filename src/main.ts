@@ -10,11 +10,14 @@ import purchaseReport from "./components/purchaseReports/purchaseReport.vue";
 import receivedOrdersIndex from "./components/receivedOrders/receivedOrdersIndex.vue";
 import receivedOrderReport from "./components/receivedOrders/receivedOrderReport.vue";
 import shopItemView from "./components/shopItems/shopItem.vue";
+import HomePage from "./components/homepage/homePage.vue";
 
 
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
+
+		{ path: "/", component: HomePage },
 		{ path: "/inventory", component: ShopItemTable },
 		{ path: "/newItem", component: NewShopItem },
 		{ path: "/shopItem/:id", component: shopItemView },
