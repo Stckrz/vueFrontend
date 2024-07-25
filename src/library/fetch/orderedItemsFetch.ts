@@ -1,4 +1,4 @@
-import { ReceivedOrder, OrderedItem } from "../../models/receivedOrder";
+import { ReceivedOrder } from "../../models/receivedOrder";
 
 export async function fetchReceivedOrders(page: number,) {
 	try {
@@ -42,7 +42,7 @@ export async function fetchReceivedOrderById(id: number = 0) {
 		catch (error) {
 			console.log({ "error": error });
 		}
-	} else{
+	} else {
 		try {
 			const response = await fetch(`http://localhost:8080/receivedOrders/index.php?receivedOrderId=${id}`)
 			const data = await response.json();
@@ -68,8 +68,14 @@ export async function fetchPostReceivedOrder(totalPurchaseAmount: number) {
 	const formdata = new FormData();
 
 	for (const key in receivedOrdersObject) {
-		formdata.append(key, receivedOrdersObject[key as keyof ReceivedOrder].toString());
+		if (receivedOrdersObject.hasOwnProperty(key)) {
+			formdata.append(key, (receivedOrdersObject as Record<string, any>)[key].toString());
+		}
 	}
+	// for (const key in receivedOrdersObject) {
+	// 	formdata.append(key, receivedOrdersObject[key as keyof ReceivedOrder].toString());
+	// }
+
 
 	try {
 		const response = await fetch('http://localhost:8080/receivedOrders/index.php', {
@@ -95,8 +101,11 @@ export async function fetchPostOrderedItem(shopItemId: number, receivedOrderId: 
 		shopItemQuantity: shopItemQuantity
 	}
 	const formdata = new FormData();
+
 	for (const key in orderedItemObject) {
-		formdata.append(key, orderedItemObject[key as keyof OrderedItem].toString());
+		if (orderedItemObject.hasOwnProperty(key)) {
+			formdata.append(key, (orderedItemObject as Record<string, any>)[key].toString());
+		}
 	}
 
 	try {
@@ -116,20 +125,20 @@ export async function fetchPostOrderedItem(shopItemId: number, receivedOrderId: 
 	}
 }
 
-export async function fetchOrderedItemsByPurchaseId(id: number){
-	try{
+export async function fetchOrderedItemsByPurchaseId(id: number) {
+	try {
 		const response = await fetch(`http://localhost:8080/orderedItems/index.php?receivedOrderId=${id}`)
 		const data = await response.json();
-		if (response.status === 200){
+		if (response.status === 200) {
 			return (data);
-		} else{
+		} else {
 			console.log("error retrieving orderedItems")
 		}
 	}
 	catch (error) {
-		console.log({"error": error})
+		console.log({ "error": error })
 	}
-	
+
 }
 
 export async function fetchUpdateReceivedOrderFulfilledDate(receivedOrder: ReceivedOrder) {

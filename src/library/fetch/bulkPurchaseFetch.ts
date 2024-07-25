@@ -1,4 +1,4 @@
-import { BulkPurchase, PurchasedItem } from "../../models/bulkPurchaseModel";
+import { PurchasedItem } from "../../models/bulkPurchaseModel";
 
 export async function fetchBulkPurchase(page: number,) {
 	try {
@@ -54,7 +54,9 @@ export async function fetchPostBulkPurchase(totalPurchaseAmount: number) {
 	const formdata = new FormData();
 
 	for (const key in bulkPurchaseObject) {
-		formdata.append(key, bulkPurchaseObject[key as keyof BulkPurchase].toString());
+		if (bulkPurchaseObject.hasOwnProperty(key)) {
+			formdata.append(key, (bulkPurchaseObject as Record<string, any>)[key].toString());
+		}
 	}
 
 	try {

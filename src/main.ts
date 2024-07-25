@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 import ShopItemTable from './components/shopItems/ShopItemTable.vue';
 import NewShopItem from "./components/shopItems/newShopItem.vue";
 import ShopItemParReport from "./components/shopItems/shopItemParReport.vue";
@@ -14,7 +14,7 @@ import HomePage from "./components/homepage/homePage.vue";
 
 
 const router = createRouter({
-	history: createWebHistory(),
+	history: createWebHashHistory(),
 	routes: [
 
 		{ path: "/", component: HomePage },

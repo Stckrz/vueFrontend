@@ -57,19 +57,22 @@ export default defineComponent({
 			const newOrder = await fetchPostBulkPurchase(totalPrice.value);
 			if (newOrder) {
 				for (let i = 0; i < orderCart.value.length; i++) {
-					const newQuantity = (parseInt(orderCart.value[i].quantity) + parseInt(orderCart.value[i].orderAmount))
+					const item = orderCart.value[i];
+					const newQuantity = parseInt(item.quantity) + parseInt(item.orderAmount);
 					const updateObject: ShopItem = {
-						shopItemId: orderCart.value[i].shopItemId,
-						shopItemName: orderCart.value[i].shopItemName,
-						shopItemCategory: orderCart.value[i].shopItemCategory,
-						price: orderCart.value[i].price,
-						buyPrice: orderCart.value[i].buyPrice,
-						quantity: newQuantity,
-						parAmount: orderCart.value[i].parAmount
+						shopItemId: item.shopItemId,
+						shopItemName: item.shopItemName,
+						shopItemCategory: item.shopItemCategory,
+						price: item.price,
+						buyPrice: item.buyPrice,
+						quantity: parseInt(newQuantity),
+						parAmount: item.parAmount
 					}
 					const response = await fetchUpdateShopItem(updateObject);
-					if (response?.status === 200) {
-						fetchPostPurchasedItem(parseInt(orderCart.value[i].shopItemId), newOrder.bulkPurchaseId, orderCart.value[i].orderAmount)
+					if (response && 'status' in response && response.status === 200) {
+						fetchPostPurchasedItem(item.shopItemId, newOrder.bulkPurchaseId, item.orderAmount)
+					} else if (response && 'message' in response) {
+						console.error("failed to update item", response.message)
 					}
 					router.push('/inventory')
 				}
@@ -81,7 +84,7 @@ export default defineComponent({
 				setOrderCart([...orderCart.value, { ...item, orderAmount: (item.parAmount - item.quantity) }])
 			}),
 				calculateAndSetTotal()
-				console.log("orderItems", props.orderItems)
+			console.log("orderItems", props.orderItems)
 		})
 		return { handleModalClose, totalPrice, setTotalPrice, orderCart, setOrderCart, calculateAndSetTotal, orderSubmitHandler }
 	}
