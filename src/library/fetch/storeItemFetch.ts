@@ -2,6 +2,7 @@ import { ShopItem } from "../../models/shopItemModel";
 
 export async function fetchSaleItems(page: number,) {
 	try {
+		// const response = await fetch(`http://slimyan.us/shopItems.php/?page=${page}`)
 		const response = await fetch(`http://localhost:8080/shopItems.php/?page=${page}`)
 		const data = await response.json();
 		if (response.status === 200) {
@@ -17,6 +18,7 @@ export async function fetchSaleItems(page: number,) {
 export async function fetchSaleItemBySearchString(searchString: string) {
 	try {
 		const response = await fetch(`http://localhost:8080/shopItems.php/?itemNameString=${searchString}`)
+		// const response = await fetch(`http://slimyan.us/shopItems.php/?itemNameString=${searchString}`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -31,6 +33,7 @@ export async function fetchSaleItemBySearchString(searchString: string) {
 export async function fetchSaleItemById(shopItemId: number) {
 	try {
 		const response = await fetch(`http://localhost:8080/shopItems.php/?shopItemId=${shopItemId}`)
+		// const response = await fetch(`http://slimyan.us/shopItems.php/?shopItemId=${shopItemId}`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -45,6 +48,7 @@ export async function fetchSaleItemById(shopItemId: number) {
 export async function fetchBelowPar() {
 	try {
 		const response = await fetch(`http://localhost:8080/shopItems.php/?parReport`)
+		// const response = await fetch(`http://slimyan.us/shopItems.php/?parReport`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -143,7 +147,8 @@ export async function fetchNewShopItem(shopItemName: string, shopItemCategory: s
 		formdata.append(key, shopItemObject[key as keyof ShopItem].toString());
 	}
 	try {
-		const response = await fetch('http://localhost:8080/shopItems.php', {
+		// const response = await fetch('http://localhost:8080/shopItems.php', {
+		const response = await fetch('http://slimyan.us/shopItems.php', {
 			method: "POST",
 			body: formdata
 		});
