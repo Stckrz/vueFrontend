@@ -11,20 +11,20 @@ export default defineComponent({
 	},
 	setup() {
 		const route = useRoute();
-		const bulkPurchaseId = route.params.id;
+		const bulkPurchaseId = route.params.id as string;
 		const bulkPurchaseData = ref<BulkPurchase | null>(null)
 		const bulkPurchaseItems = ref<PurchasedItem[]>([])
 
 		onMounted(() => {
-			fetchBulkPurchaseById(bulkPurchaseId).then((data) => {
+			fetchBulkPurchaseById(parseInt(bulkPurchaseId)).then((data) => {
 				bulkPurchaseData.value = data[0]
 				console.log("bulkPurchaseData", bulkPurchaseData.value)
 			})
-			fetchPurchasedItemsByPurchaseId(bulkPurchaseId).then((data) => {
+			fetchPurchasedItemsByPurchaseId(parseInt(bulkPurchaseId)).then((data) => {
 				bulkPurchaseItems.value = data
 			})
-		   watch(bulkPurchaseData, (newValue) => {
-			  console.log('Bulk Purchase Data Updated:', newValue);
+			watch(bulkPurchaseData, (newValue) => {
+				console.log('Bulk Purchase Data Updated:', newValue);
 			});
 		})
 		return { bulkPurchaseItems, bulkPurchaseData }
@@ -39,20 +39,22 @@ export default defineComponent({
 			<div>Purchase Date: {{ bulkPurchaseData.purchaseDate }}</div>
 			<div>Total Purchase Amount: {{ bulkPurchaseData.totalPurchaseAmount }}</div>
 		</div>
-		<div class="bulkPurchaseItemsTable" v-if="bulkPurchaseItems.length > 0">
+		<!-- <div class="bulkPurchaseItemsTable" v-if="bulkPurchaseItems.length > 0"> -->
+		<div class="bulkPurchaseItemsTable">
 			<TableRender :objectArray="bulkPurchaseItems" />
 		</div>
 	</div>
 </template>
 
 <style scoped>
-.tableContainer{
+.tableContainer {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
-.bulkPurchaseData{
+
+.bulkPurchaseData {
 	display: flex;
 	margin: 10px 0px 10px 0px;
 	flex-direction: column;

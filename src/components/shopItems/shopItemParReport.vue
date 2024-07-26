@@ -27,6 +27,7 @@ export default defineComponent({
 			fetchBelowPar().then((data) => {
 				shopItems.value = data;
 				setShopItems(data);
+				console.log(data)
 			});
 		})
 

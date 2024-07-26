@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref, onMounted } from 'vue';
 import { ShopItem, OrderItem } from '../../models/shopItemModel';
 export default defineComponent({
 	name: "ShopItemTableItem",
@@ -22,6 +22,7 @@ export default defineComponent({
 		}
 	},
 	setup(props) {
+		const quantityPlaceholder = ref(0)
 		const handleQuantityChange = (event: Event) => {
 			const { value: quantity } = (event.target as HTMLInputElement);
 
@@ -37,7 +38,10 @@ export default defineComponent({
 				props.calculateAndSetTotal();
 			}
 		}
-		return { handleQuantityChange }
+		onMounted(() => {
+			quantityPlaceholder.value = props.tableItem.parAmount - props.tableItem.quantity;
+		})
+		return { handleQuantityChange, quantityPlaceholder }
 	}
 })
 
@@ -50,7 +54,7 @@ export default defineComponent({
 	<td>{{ tableItem.quantity }}</td>
 	<td>{{ tableItem.parAmount }}</td>
 	<td><input type="number" @change="handleQuantityChange($event)" class="amountInput"
-			:placeholder="tableItem.parAmount - tableItem.quantity" /></td>
+			:placeholder="quantityPlaceholder.toString()" /></td>
 </template>
 
 <style scoped>

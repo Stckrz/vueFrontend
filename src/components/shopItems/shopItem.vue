@@ -7,33 +7,27 @@ export default defineComponent({
 	name: "shopItem",
 	setup() {
 		const route = useRoute();
-		const shopItemId = route.params.id;
-		const saleItem = ref<ShopItem | null>()
+		const shopItemId = route.params.id as string;
+		const saleItem = ref<ShopItem>()
 		const editMode = ref(false)
 
-
-		const updateField = (updateKey: string, newValue: any) => {
+		const updateField = (updateKey: string, newValue: string | number) => {
 			const saleItemCopy = saleItem.value
 			console.log(saleItemCopy)
-			if (saleItemCopy) {
-				Object.keys(saleItemCopy).forEach((key) => {
-					if (key === updateKey) {
-						console.log("key", key)
-						console.log("updateKey", updateKey)
-						saleItemCopy[key] = newValue;
-					}
-				})
-				console.log(saleItemCopy)
-				saleItem.value = saleItemCopy
+			if (saleItem.value) {
+				if (updateKey in saleItem.value) {
+					(saleItem.value[updateKey as keyof ShopItem] as unknown) = newValue
+				}
 			}
 		}
+
 		const updateShopItem = async (shopItem: ShopItem) => {
 			const response = await fetchUpdateShopItem(shopItem);
 			console.log(response)
 		}
 
 		onMounted(() => {
-			fetchSaleItemById(shopItemId).then((data) => {
+			fetchSaleItemById(parseInt(shopItemId)).then((data) => {
 				saleItem.value = data[0]
 			})
 		})
@@ -59,7 +53,7 @@ export default defineComponent({
 					<td>{{ key }}</td>
 					<td v-if="key !== 'shopItemId'">
 						<input @change="updateField(key, ($event.target as HTMLInputElement).value)"
-							:placeholder="item"></input>
+							:placeholder="item.toString()"></input>
 					</td>
 					<td v-if="key === 'shopItemId'">{{ item }}</td>
 				</tr>

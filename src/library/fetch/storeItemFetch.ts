@@ -3,10 +3,12 @@ import { ShopItem } from "../../models/shopItemModel";
 export async function fetchSaleItems(page: number,) {
 	try {
 		// const response = await fetch(`http://slimyan.us/shopItems.php/?page=${page}`)
-		const response = await fetch(`http://localhost:8080/shopItems.php/?page=${page}`)
+		const response = await fetch(`https://slimyan.us/shopItems/?page=${page}`)
 		const data = await response.json();
 		if (response.status === 200) {
+			console.log(data)
 			return data
+			
 		} else {
 			return ({ "message": "internal database error" })
 		}
@@ -17,7 +19,7 @@ export async function fetchSaleItems(page: number,) {
 
 export async function fetchSaleItemBySearchString(searchString: string) {
 	try {
-		const response = await fetch(`http://localhost:8080/shopItems.php/?itemNameString=${searchString}`)
+		const response = await fetch(`https://slimyan.us/shopItems/?itemNameString=${searchString}`)
 		// const response = await fetch(`http://slimyan.us/shopItems.php/?itemNameString=${searchString}`)
 		const data = await response.json();
 		if (response.status === 200) {
@@ -32,7 +34,7 @@ export async function fetchSaleItemBySearchString(searchString: string) {
 
 export async function fetchSaleItemById(shopItemId: number) {
 	try {
-		const response = await fetch(`http://localhost:8080/shopItems.php/?shopItemId=${shopItemId}`)
+		const response = await fetch(`https://slimyan.us/shopItems/?shopItemId=${shopItemId}`)
 		// const response = await fetch(`http://slimyan.us/shopItems.php/?shopItemId=${shopItemId}`)
 		const data = await response.json();
 		if (response.status === 200) {
@@ -47,10 +49,11 @@ export async function fetchSaleItemById(shopItemId: number) {
 
 export async function fetchBelowPar() {
 	try {
-		const response = await fetch(`http://localhost:8080/shopItems.php/?parReport`)
+		const response = await fetch(`https://slimyan.us/shopItems/?parReport`)
 		// const response = await fetch(`http://slimyan.us/shopItems.php/?parReport`)
 		const data = await response.json();
 		if (response.status === 200) {
+			console.log(data)
 			return data
 		} else {
 			return ({ "message": "internal database error" })
@@ -62,7 +65,7 @@ export async function fetchBelowPar() {
 
 export async function fetchSaleItemsCount() {
 	try {
-		const response = await fetch(`http://localhost:8080/countItems.php?countType=shopItems`)
+		const response = await fetch(`https://slimyan.us/countItems/?countType=shopItems`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -76,7 +79,7 @@ export async function fetchSaleItemsCount() {
 
 export async function fetchSaleItemCategories(){
 	try{
-		const response = await fetch('http://localhost:8080/shopItems?categoryList');
+		const response = await fetch('https://slimyan.us/shopItems/?categoryList');
 		const data = await response.json();
 		if(response.status === 200){
 			return data
@@ -91,7 +94,7 @@ export async function fetchSaleItemCategories(){
 
 export async function fetchPurchaseReportCount() {
 	try {
-		const response = await fetch(`http://localhost:8080/countItems.php?countType=purchaseReports`)
+		const response = await fetch(`https://slimyan.us/countItems/?countType=purchaseReports`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -114,7 +117,7 @@ export async function fetchUpdateShopItem(shopItem: ShopItem) {
 		parAmount: shopItem.parAmount
 	}
 	try {
-		const response = await fetch(`http://localhost:8080/shopItems.php/?shopItemId=${itemId}`, {
+		const response = await fetch(`https://slimyan.us/shopItems/?shopItemId=${itemId}`, {
 			method: "PUT",
 			body: JSON.stringify(updateItemObject)
 
@@ -132,23 +135,24 @@ export async function fetchUpdateShopItem(shopItem: ShopItem) {
 	}
 }
 
-export async function fetchNewShopItem(shopItemName: string, shopItemCategory: string, price: number, buyPrice: number, quantity: number, parAmount: number) {
+// export async function fetchNewShopItem(shopItemName: string, shopItemCategory: string, price: number, buyPrice: number, quantity: number, parAmount: number) {
+export async function fetchNewShopItem(shopItem: ShopItem) {
 	const shopItemObject: ShopItem = {
 		shopItemId: 0,
-		shopItemName: shopItemName,
-		shopItemCategory: shopItemCategory,
-		price: price,
-		buyPrice: buyPrice,
-		quantity: quantity,
-		parAmount: parAmount
+		shopItemName: shopItem.shopItemName,
+		shopItemCategory: shopItem.shopItemCategory,
+		price: shopItem.price,
+		buyPrice: shopItem.buyPrice,
+		quantity: shopItem.quantity,
+		parAmount: shopItem.parAmount
 	}
 	const formdata = new FormData();
 	for (const key in shopItemObject) {
 		formdata.append(key, shopItemObject[key as keyof ShopItem].toString());
 	}
 	try {
-		// const response = await fetch('http://localhost:8080/shopItems.php', {
-		const response = await fetch('http://slimyan.us/shopItems.php', {
+		// const response = await fetch('https://slimyan.us80/shopItems.php', {
+		const response = await fetch('https://slimyan.us/shopItems/', {
 			method: "POST",
 			body: formdata
 		});

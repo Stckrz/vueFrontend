@@ -2,6 +2,7 @@
 import { ref, defineComponent } from 'vue';
 import { fetchNewShopItem } from '../../library/fetch/storeItemFetch';
 import { useRouter } from 'vue-router';
+import { ShopItem } from '../../models/shopItemModel';
 
 export default defineComponent({
 	name: "NewShopItem",
@@ -18,7 +19,17 @@ export default defineComponent({
 			if (event) {
 				event.preventDefault();
 			}
-			fetchNewShopItem(shopItemName.value, shopItemCategory.value, price.value, buyPrice.value, quantity.value, parAmount.value).then(
+
+			const shopItemObject: ShopItem = {
+				shopItemId: 0,
+				shopItemName: shopItemName.value,
+				shopItemCategory: shopItemCategory.value,
+				price: price.value,
+				buyPrice: buyPrice.value,
+				quantity: quantity.value,
+				parAmount: parAmount.value
+			}
+			fetchNewShopItem(shopItemObject).then(
 				(response) => {
 					response !== undefined && router.push('/inventory');
 				}
@@ -98,7 +109,7 @@ export default defineComponent({
 	justify-content: flex-end;
 }
 
-.inputContainer input{
+.inputContainer input {
 	width: 100%;
 }
 </style>

@@ -17,7 +17,7 @@ export default defineComponent({
 	setup() {
 
 		const route = useRoute();
-		const receivedOrderId = route.params.id;
+		const receivedOrderId = route.params.id as string;
 		const receivedOrderData = ref<ReceivedOrder | null>(null)
 		//const receivedOrderData = ref();
 		const receivedOrderItems = ref<OrderedItem[]>([])
@@ -27,11 +27,11 @@ export default defineComponent({
 			orderModalOpen.value = value;
 		}
 		onMounted(() => {
-			fetchReceivedOrderById(receivedOrderId).then((data) => {
+			fetchReceivedOrderById(parseInt(receivedOrderId)).then((data) => {
 				receivedOrderData.value = data[0]
 			})
 
-			fetchOrderedItemsByPurchaseId(receivedOrderId).then((data) => {
+			fetchOrderedItemsByPurchaseId(parseInt(receivedOrderId)).then((data) => {
 				receivedOrderItems.value = data
 			})
 		})
@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
-	<div v-if="orderModalOpen">
+	<div v-if="orderModalOpen && receivedOrderData">
 		<FulfillOrderModal :setOrderModalOpen="setOrderModalOpen" :orderModalOpen="orderModalOpen"
 			:receivedOrderItems="receivedOrderItems" :receivedOrderData="receivedOrderData" />
 	</div>

@@ -2,7 +2,7 @@ import { PurchasedItem } from "../../models/bulkPurchaseModel";
 
 export async function fetchBulkPurchase(page: number,) {
 	try {
-		const response = await fetch(`http://localhost:8080/bulkPurchase/bulkPurchase.php/?page=${page}`)
+		const response = await fetch(`https://slimyan.us/bulkPurchase/?page=${page}`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -17,7 +17,7 @@ export async function fetchBulkPurchase(page: number,) {
 export async function fetchBulkPurchaseById(id: number = 0) {
 	if (id === 0) {
 		try {
-			const response = await fetch(`http://localhost:8080/bulkPurchase/bulkPurchase.php`)
+			const response = await fetch(`https://slimyan.us/bulkPurchase/`)
 			const data = await response.json();
 			if (response.status === 200) {
 				return (data)
@@ -30,7 +30,7 @@ export async function fetchBulkPurchaseById(id: number = 0) {
 		}
 	} else{
 		try {
-			const response = await fetch(`http://localhost:8080/bulkPurchase/bulkPurchase.php?bulkPurchaseId=${id}`)
+			const response = await fetch(`https://slimyan.us/bulkPurchase/?bulkPurchaseId=${id}`)
 			const data = await response.json();
 			if (response.status === 200) {
 				return (data)
@@ -60,7 +60,7 @@ export async function fetchPostBulkPurchase(totalPurchaseAmount: number) {
 	}
 
 	try {
-		const response = await fetch('http://localhost:8080/bulkPurchase/bulkPurchase.php', {
+		const response = await fetch('https://slimyan.us/bulkPurchase/', {
 			method: "POST",
 			body: formdata
 		})
@@ -88,7 +88,7 @@ export async function fetchPostPurchasedItem(shopItemId: number, bulkPurchaseId:
 	}
 
 	try {
-		const response = await fetch('http://localhost:8080/purchasedItems/index.php', {
+		const response = await fetch('https://slimyan.us/purchasedItems/', {
 			method: "POST",
 			body: formdata
 		})
@@ -106,7 +106,7 @@ export async function fetchPostPurchasedItem(shopItemId: number, bulkPurchaseId:
 
 export async function fetchPurchasedItemsByPurchaseId(id: number){
 	try{
-		const response = await fetch(`http://localhost:8080/purchasedItems/index.php?bulkPurchaseId=${id}`)
+		const response = await fetch(`https://slimyan.us/purchasedItems/?bulkPurchaseId=${id}`)
 		const data = await response.json();
 		if (response.status === 200){
 			return (data);

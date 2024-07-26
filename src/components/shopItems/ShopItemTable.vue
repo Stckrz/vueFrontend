@@ -30,17 +30,21 @@ export default defineComponent({
 			currentPage.value = page;
 			fetchSaleItems(page).then((data: ShopItem[]) => { shopItems.value = data })
 		}
-		const saleItemSearch = (searchString: string) =>{
+		const saleItemSearch = (searchString: string) => {
 			fetchSaleItemBySearchString(searchString).then((data) => shopItems.value = data);
-			
+
 		}
 
 		onMounted(() => {
-			fetchSaleItems(1).then((data) => shopItems.value = data)
+			fetchSaleItems(1).then((data) => {
+				shopItems.value = data
+
+			})
 			fetchSaleItemsCount().then((count: ItemCount) => {
 				totalShopItemsCount.value = count.totalItems;
 				totalPages.value = count.numberOfPages;
 			})
+
 		})
 		return { shopItems, currentPage, setPage, totalShopItemsCount, totalPages, tableType, saleItemSearch, searchField }
 	}
@@ -74,18 +78,18 @@ export default defineComponent({
 	align-items: flex-end;
 }
 
-.searchBox{
+.searchBox {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.searchBox button{
+.searchBox button {
 	padding: 2px 5px 2px 5px;
 	border-radius: 5px;
 }
 
-.searchBox input{
+.searchBox input {
 	border-radius: 5px;
 }
 </style>

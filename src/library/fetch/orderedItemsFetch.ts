@@ -2,7 +2,7 @@ import { ReceivedOrder } from "../../models/receivedOrder";
 
 export async function fetchReceivedOrders(page: number,) {
 	try {
-		const response = await fetch(`http://localhost:8080/receivedOrders/index.php/?page=${page}`)
+		const response = await fetch(`https://slimyan.us/receivedOrders/?page=${page}`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -16,7 +16,7 @@ export async function fetchReceivedOrders(page: number,) {
 
 export async function fetchUnfulfilledReceivedOrders() {
 	try {
-		const response = await fetch(`http://localhost:8080/receivedOrders/index.php/?unfulfilled`)
+		const response = await fetch(`https://slimyan.us/receivedOrders/?unfulfilled`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return data
@@ -31,7 +31,7 @@ export async function fetchUnfulfilledReceivedOrders() {
 export async function fetchReceivedOrderById(id: number = 0) {
 	if (id === 0) {
 		try {
-			const response = await fetch(`http://localhost:8080/receivedOrders/index.php?receivedOrderId=${id}`)
+			const response = await fetch(`https://slimyan.us/receivedOrders/?receivedOrderId=${id}`)
 			const data = await response.json();
 			if (response.status === 200) {
 				return (data)
@@ -44,7 +44,7 @@ export async function fetchReceivedOrderById(id: number = 0) {
 		}
 	} else {
 		try {
-			const response = await fetch(`http://localhost:8080/receivedOrders/index.php?receivedOrderId=${id}`)
+			const response = await fetch(`https://slimyan.us/receivedOrders/?receivedOrderId=${id}`)
 			const data = await response.json();
 			if (response.status === 200) {
 				return (data)
@@ -78,7 +78,7 @@ export async function fetchPostReceivedOrder(totalPurchaseAmount: number) {
 
 
 	try {
-		const response = await fetch('http://localhost:8080/receivedOrders/index.php', {
+		const response = await fetch('https://slimyan.us/receivedOrders/', {
 			method: "POST",
 			body: formdata
 		})
@@ -109,7 +109,7 @@ export async function fetchPostOrderedItem(shopItemId: number, receivedOrderId: 
 	}
 
 	try {
-		const response = await fetch('http://localhost:8080/orderedItems/index.php', {
+		const response = await fetch('https://slimyan.us/orderedItems/', {
 			method: "POST",
 			body: formdata
 		})
@@ -127,7 +127,7 @@ export async function fetchPostOrderedItem(shopItemId: number, receivedOrderId: 
 
 export async function fetchOrderedItemsByPurchaseId(id: number) {
 	try {
-		const response = await fetch(`http://localhost:8080/orderedItems/index.php?receivedOrderId=${id}`)
+		const response = await fetch(`https://slimyan.us/orderedItems/?receivedOrderId=${id}`)
 		const data = await response.json();
 		if (response.status === 200) {
 			return (data);
@@ -150,7 +150,7 @@ export async function fetchUpdateReceivedOrderFulfilledDate(receivedOrder: Recei
 		fulfilledDate: currentDate.toISOString().split('T')[0]
 	}
 	try {
-		const response = await fetch(`http://localhost:8080/receivedOrders/index.php/?receivedOrderId=${orderId}`, {
+		const response = await fetch(`https://slimyan.us/receivedOrders/?receivedOrderId=${orderId}`, {
 			method: "PUT",
 			body: JSON.stringify(updateItemObject)
 		});
@@ -173,7 +173,7 @@ export async function fetchUpdateReceivedOrder(receivedOrder: ReceivedOrder) {
 		fulfilledDate: receivedOrder.fulfilledDate,
 	}
 	try {
-		const response = await fetch(`http://localhost:8080/orderedItems/index.php/?receivedOrderId=${orderId}`, {
+		const response = await fetch(`https://slimyan.us/orderedItems/?receivedOrderId=${orderId}`, {
 			method: "PUT",
 			body: JSON.stringify(updateItemObject)
 		});

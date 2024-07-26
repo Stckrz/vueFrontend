@@ -58,14 +58,14 @@ export default defineComponent({
 			if (newOrder) {
 				for (let i = 0; i < orderCart.value.length; i++) {
 					const item = orderCart.value[i];
-					const newQuantity = parseInt(item.quantity) + parseInt(item.orderAmount);
+					const newQuantity = item.quantity + item.orderAmount;
 					const updateObject: ShopItem = {
 						shopItemId: item.shopItemId,
 						shopItemName: item.shopItemName,
 						shopItemCategory: item.shopItemCategory,
 						price: item.price,
 						buyPrice: item.buyPrice,
-						quantity: parseInt(newQuantity),
+						quantity: newQuantity,
 						parAmount: item.parAmount
 					}
 					const response = await fetchUpdateShopItem(updateObject);
